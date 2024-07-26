@@ -11,7 +11,7 @@ Thread model: posix
 InstalledDir: /usr/local/bin
 
 ### Libraries 
-mpfr 4.2.1, icu4c 74.2 (use brew)
+mpfr 4.2.1, icu4c 74.2, gmp 6.3.0 (use brew to install in each case)
 
 ## Specific
 note the changes in cabal for demo; have gcc point to clang16 (use sudo ln -sf /opt/homebrew/opt/llvm@16/bin/clang-16 /usr/local/bin/gcc)
