@@ -24,11 +24,13 @@ maintainer:          Michal Konečný <mikkonecny@gmail.com>
 Homepage:            https://github.com/michalkonecny/hmpfr
 build-type:          Simple
 Extra-source-files:  demo/Demo.hs
+extra-doc-files:     ChangeLog
+                    
 
 Data-files:
   README.md
   dict.txt
-  ChangeLog
+  
 
 source-repository head
   type:     git
@@ -37,7 +39,7 @@ source-repository head
 
 Library
   build-Depends:       base >= 4.8 && < 5,
-                       integer-gmp
+                       integer-gmp == 1.1
   extra-libraries:     mpfr
   Exposed-modules:
                        Data.Number.MPFR.FFIhelper
@@ -78,6 +80,7 @@ Executable demo
   main-is:             Demo.hs
   build-Depends:       base >= 4.8 && < 5,
                        hmpfr,
-                       digits >= 0.3.1
+                       digits == 0.3.1
   GHC-options:         -Wall -fno-warn-orphans
   hs-source-dirs:      demo
+  default-language:    Haskell2010
