@@ -102,8 +102,10 @@ main :: IO ()
 main = do print $ sqrtInt (2^30)
           print $ sqrtInteger (2^63) -- integer maxes out at 2^64
           print $ sqrtDouble 123456789012345.62030030030030303030
-          let testInteger = (2^63 - 1) :: Integer
-          print $ sqrtBigFloat testInteger
+          let testInteger1 = (2^63 - 1) :: Integer
+          print $ sqrtBigFloat testInteger1
+          let testInteger2 = 10^605 :: Integer
+          print $ sqrtBigFloat testInteger2
           -- print $ integerLogBase 10 (toInteger $ M.toWord M.Near (sqrtBigFloat testInteger))
         --   print $ s1 1000 100000
         --   print $ s6 1000 100000

@@ -15,6 +15,7 @@ InstalledDir: /usr/local/bin
 mpfr 4.2.1, icu4c 74.2, gmp 6.3.0 (use brew to install in each case)
 
 ## Specific
--- Note the changes in cabal for demo; have gcc point to clang16 (use sudo ln -sf /opt/homebrew/opt/llvm@16/bin/clang-16 /usr/     local/bin/gcc) ; ensure mpfr's path (use brew list mpfr) is on the path. Ditto with gmp.
+-- Note the changes in cabal for demo; have gcc point to clang16 (use sudo ln -sf /opt/homebrew/opt/llvm@16/bin/clang-16 /usr/     local/bin/gcc) ; ensure mpfr's path (use brew list mpfr) is on the path. Ditto with gmp. ensure DYLD_LIBRARY_PATH and PKG_CONFIG_PATH are pointing right
+
 -- GHC version greater than what's noted above do not work
 
