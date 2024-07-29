@@ -1,3 +1,5 @@
+{-# LANGUAGE TypeApplications #-}
+{-# LANGUAGE MagicHash #-}
 module Main where
 
 import qualified Data.Number.MPFR as M --import functions
@@ -7,9 +9,14 @@ import qualified Data.Number.MPFR.Mutable as MM
 
 import Control.Monad.ST(runST)
 import Data.Number.MPFR (RoundMode)
-import GHC.Num.Integer (integerLogBase)
+import GHC.Num.Integer (integerLogBase, integerLog2)
 import Data.Char (intToDigit)
 import Data.Digits (digits)
+import Data.Bits
+import Data.List (unfoldr)
+import Debug.Trace
+import Data.Primitive.Types (sizeOf, sizeOfType)
+import Data.Word
 
 
 -- compute the sqrt
@@ -26,8 +33,31 @@ sqrtDouble d = M.sqrt M.Near 1000 (M.fromDouble M.Near 1000 d)
 
 -- | we have to get it working for a type that is CDouble,Clong (significand, exponent)
 sqrtBigFloat :: Integer -> M.MPFR
-sqrtBigFloat i = M.sqrt M.Near 1000 (M.stringToMPFR M.Near 1000 (10 :: Word) (integerToString i))
-  
+sqrtBigFloat i = trace ("wrd, int =" ++ show wrdThing ++ " " ++ show twoExp) M.sqrt M.Near 1000 (M.int2w M.Near 1000 wrdThing twoExp) where 
+    (wrdThing, twoExp) = iWord2 i 
+
+--
+-- Fold and unfold an Integer to and from a list of its bytes
+--
+unroll :: Integer -> [Word]
+unroll = unfoldr step
+  where
+    step 0 = Nothing
+    step i = Just (fromIntegral i, i `shiftR` (sizeOfType @Word))
+
+roll :: [Word] -> Integer
+roll = foldr unstep 0
+  where
+    unstep b a = a `shiftL` (sizeOfType @Word) .|. fromIntegral b
+
+iWord2 :: Integer -> (Word, Int)
+iWord2 i = (first, twosExp) where
+        iWordsLst = unroll i    
+        wrkList = dropWhile (== 0) iWordsLst
+        first = head wrkList
+        rest = tail wrkList
+        twosExp = fromIntegral (integerLog2 $ roll rest)
+
 sqrtBigFloatOld :: (Integer, Int) -> M.MPFR
 sqrtBigFloatOld n@(i,e) = M.sqrtw M.Near 10 wrd
   where
@@ -104,8 +134,9 @@ main = do print $ sqrtInt (2^30)
           print $ sqrtDouble 123456789012345.62030030030030303030
           let testInteger1 = (2^63 - 1) :: Integer
           print $ sqrtBigFloat testInteger1
-          let testInteger2 = 10^605 :: Integer
+          let testInteger2 = 10^605 :: Integer 
           print $ sqrtBigFloat testInteger2
+          print $ M.sqr M.Near 1000 (sqrtBigFloat testInteger2)
           -- print $ integerLogBase 10 (toInteger $ M.toWord M.Near (sqrtBigFloat testInteger))
         --   print $ s1 1000 100000
         --   print $ s6 1000 100000
