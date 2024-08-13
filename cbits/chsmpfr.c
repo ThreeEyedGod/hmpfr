@@ -151,12 +151,12 @@ int mpfr_const_catalan_wrap (mpfr_ptr p1, int p2) {
   return mpfr_const_catalan(p1,p2);
 }
 
-/*
-intmax_t mpfr_get_sj_wrap (mpfr_ptr p1, mp_rnd_t p2) {
-  return mpfr_get_sj(p1, p2);
-}
 
-uintmax_t mpfr_get_uj_wrap (mpfr_ptr p1, mp_rnd_t p2) {
-  return mpfr_get_uj (p1, p2);
-}
-*/
+// intmax_t mpfr_get_sj_wrap (mpfr_ptr p1, mp_rnd_t p2) {
+//   return mpfr_get_sj(p1, p2);
+// }
+
+// uintmax_t mpfr_get_uj_wrap (mpfr_ptr p1, mp_rnd_t p2) {
+//   return mpfr_get_uj(p1, p2);
+// }
+

@@ -10,7 +10,7 @@ import Data.Int
 
 import Foreign.C.String(CString)
 #if (__GLASGOW_HASKELL__ >= 704)
-import Foreign.C.Types(CULong(..), CLong(..), CInt(..), CUInt(..), CDouble(..), CChar)
+import Foreign.C.Types(CULong(..), CLong(..), CInt(..), CUInt(..), CDouble(..), CChar, CIntMax(..), CUIntMax(..))
 #else
 import Foreign.C.Types(CULong, CLong, CInt, CUInt, CDouble, CChar)
 #endif
@@ -259,6 +259,11 @@ foreign import ccall unsafe "mpfr_fits_intmax_p"
 foreign import ccall unsafe "mpfr_fits_uintmax_p"
         mpfr_fits_uintmax_p :: Ptr MPFR -> CRoundMode -> IO CInt
 
+-- foreign import ccall unsafe "mpfr_get_sj"
+--         mpfr_get_sj :: Ptr MPFR -> CRoundMode -> IO CIntMax
+
+-- foreign import ccall unsafe "mpfr_get_uj"
+--         mpfr_get_uj :: Ptr MPFR -> CRoundMode -> IO CUIntMax
 
 -------------------------------------------------------------------------------
 

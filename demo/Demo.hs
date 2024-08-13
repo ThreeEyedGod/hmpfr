@@ -31,38 +31,22 @@ sqrtInteger n = M.sqrtw M.Near 1000 wrd where
 sqrtDouble :: Double -> M.MPFR
 sqrtDouble d = M.sqrt M.Near 1000 (M.fromDouble M.Near 1000 d)
 
--- | we have to get it working for a type that is CDouble,Clong (significand, exponent)
 sqrtBigFloat :: Integer -> M.MPFR
-sqrtBigFloat i = trace ("wrd, int =" ++ show wrdThing ++ " " ++ show twoExp) M.sqrt M.Near 1000 (M.int2w M.Near 1000 wrdThing twoExp) where 
-    (wrdThing, twoExp) = iWord2 i 
+sqrtBigFloat i =  M.sqrt M.Near 1000 $ M.fromIntegerA M.Near 10000 i 
 
---
--- Fold and unfold an Integer to and from a list of its bytes
---
-unroll :: Integer -> [Word]
-unroll = unfoldr step
+decompose :: Integer -> (Word, Int)
+decompose i
+  | i < 0 = error "Input must be a non-negative integer"
+  | otherwise = (fromIntegral x, y)
   where
-    step 0 = Nothing
-    step i = Just (fromIntegral i, i `shiftR` (sizeOfType @Word))
-
-roll :: [Word] -> Integer
-roll = foldr unstep 0
-  where
-    unstep b a = a `shiftL` (sizeOfType @Word) .|. fromIntegral b
-
-iWord2 :: Integer -> (Word, Int)
-iWord2 i = (first, twosExp) where
-        iWordsLst = unroll i    
-        wrkList = dropWhile (== 0) iWordsLst
-        first = head wrkList
-        rest = tail wrkList
-        twosExp = fromIntegral (integerLog2 $ roll rest)
-
-sqrtBigFloatOld :: (Integer, Int) -> M.MPFR
-sqrtBigFloatOld n@(i,e) = M.sqrtw M.Near 10 wrd
-  where
-    wrd = M.toWord M.Near uMPFR
-    uMPFR = M.compose M.Near 10 n
+    (y, x) = integerLog2 i
+    integerLog2 n = go n 0
+      where
+        go 0 acc = (acc - 1, 0) -- Handle the case for 0
+        go m acc =
+          if m `mod` 2 == 0
+            then go (m `div` 2) (acc + 1)
+            else (acc, m)
 
 integerToString :: Integer -> String
 integerToString i = intsToDigits (digits 10 (fromIntegral i)) 
@@ -129,14 +113,15 @@ testRandom =
     print $ M.urandomb rsP 1000
 
 main :: IO ()
-main = do print $ sqrtInt (2^30)
-          print $ sqrtInteger (2^63) -- integer maxes out at 2^64
-          print $ sqrtDouble 123456789012345.62030030030030303030
-          let testInteger1 = (2^63 - 1) :: Integer
-          print $ sqrtBigFloat testInteger1
-          let testInteger2 = 10^605 :: Integer 
+main = do --print $ sqrtInt (2^30)
+          --print $ sqrtInteger (2^63) -- integer maxes out at 2^64
+          --print $ sqrtDouble 123456789012345.62030030030030303030
+          --let testInteger1 = (2^63 - 1) :: Integer
+          --print $ sqrtBigFloat testInteger1
+          let testInteger2 = (123 * 10^605) :: Integer 
           print $ sqrtBigFloat testInteger2
-          print $ M.sqr M.Near 1000 (sqrtBigFloat testInteger2)
+
+
           -- print $ integerLogBase 10 (toInteger $ M.toWord M.Near (sqrtBigFloat testInteger))
         --   print $ s1 1000 100000
         --   print $ s6 1000 100000

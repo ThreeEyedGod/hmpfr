@@ -40,6 +40,16 @@
   (major1) == 0 && (major2) <  4 || \
   (major1) == 0 && (major2) == 4 && (minor) <= 5)
 #endif /* MIN_VERSION_hmpfr */
+/* package primitive-0.9.0.0 */
+#ifndef VERSION_primitive
+#define VERSION_primitive "0.9.0.0"
+#endif /* VERSION_primitive */
+#ifndef MIN_VERSION_primitive
+#define MIN_VERSION_primitive(major1,major2,minor) (\
+  (major1) <  0 || \
+  (major1) == 0 && (major2) <  9 || \
+  (major1) == 0 && (major2) == 9 && (minor) <= 0)
+#endif /* MIN_VERSION_primitive */
 
 /* tool gcc-16.0.6 */
 #ifndef TOOL_VERSION_gcc

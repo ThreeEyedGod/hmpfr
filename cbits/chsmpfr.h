@@ -65,11 +65,11 @@ size_t mpfr_custom_get_size_wrap (mp_prec_t) ;
 void mpfr_custom_init_wrap (void * , mp_prec_t) ;
 
 void mpfr_custom_init_set_wrap (const mpfr_ptr , int , mp_exp_t , mp_prec_t , void *) ;
-/*
+
 intmax_t mpfr_get_sj_wrap (mpfr_ptr, mp_rnd_t );
 
 uintmax_t mpfr_get_uj_wrap (mpfr_ptr, mp_rnd_t );
-*/
+
 
 
 int mpfr_custom_get_kind_wrap (const mpfr_ptr ) ;

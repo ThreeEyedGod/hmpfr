@@ -12,7 +12,7 @@ import Data.Int
 import Foreign.C.String(CString)
 
 {-# LINE 13 "src/Data/Number/MPFR/FFIhelper.hsc" #-}
-import Foreign.C.Types(CULong(..), CLong(..), CInt(..), CUInt(..), CDouble(..), CChar)
+import Foreign.C.Types(CULong(..), CLong(..), CInt(..), CUInt(..), CDouble(..), CChar, CIntMax(..), CUIntMax(..))
 
 {-# LINE 17 "src/Data/Number/MPFR/FFIhelper.hsc" #-}
 import Foreign.Ptr(Ptr)
@@ -288,6 +288,11 @@ foreign import ccall unsafe "mpfr_fits_intmax_p"
 foreign import ccall unsafe "mpfr_fits_uintmax_p"
         mpfr_fits_uintmax_p :: Ptr MPFR -> CRoundMode -> IO CInt
 
+-- foreign import ccall unsafe "mpfr_get_sj"
+--         mpfr_get_sj :: Ptr MPFR -> CRoundMode -> IO CIntMax
+
+-- foreign import ccall unsafe "mpfr_get_uj"
+--         mpfr_get_uj :: Ptr MPFR -> CRoundMode -> IO CUIntMax
 
 -------------------------------------------------------------------------------
 
@@ -816,11 +821,11 @@ foreign import ccall unsafe "mpfr_erangeflag_p"
 -- custom interface
 foreign import ccall unsafe "mpfr_custom_get_size_wrap"
         mpfr_custom_get_size :: CPrecision -> IO Word64
-{-# LINE 790 "src/Data/Number/MPFR/FFIhelper.hsc" #-}
+{-# LINE 795 "src/Data/Number/MPFR/FFIhelper.hsc" #-}
 
 foreign import ccall unsafe "mpfr_custom_init_wrap"
         mpfr_custom_init :: Ptr Word64 -> CPrecision -> IO ()
-{-# LINE 793 "src/Data/Number/MPFR/FFIhelper.hsc" #-}
+{-# LINE 798 "src/Data/Number/MPFR/FFIhelper.hsc" #-}
 
 foreign import ccall unsafe "mpfr_custom_init_set_wrap"
         mpfr_custom_init_set :: Ptr MPFR -> CInt -> Exp -> CPrecision -> Ptr Limb -> IO ()
@@ -836,6 +841,6 @@ foreign import ccall unsafe "mpfr_custom_get_exp_wrap"
 
 foreign import ccall unsafe "mpfr_custom_move_wrap"
         mpfr_custom_move :: Ptr MPFR -> Ptr Word64 -> IO ()
-{-# LINE 808 "src/Data/Number/MPFR/FFIhelper.hsc" #-}
+{-# LINE 813 "src/Data/Number/MPFR/FFIhelper.hsc" #-}
 
 -------------------------------------------------
